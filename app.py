@@ -95,7 +95,7 @@ def predict():
             inference="low"
     return render_template('result.html', result=final, inf=inference)
 
-@app.route('/plot2')
+@app.route('/plot1')
 def plot2():
         img = BytesIO()
         data=pd.read_csv('Carbon Dioxide Emission.csv')
@@ -115,9 +115,9 @@ def plot2():
         img.seek(0)
         plot_url = base64.b64encode(img.getvalue()).decode('utf8')
 
-        return render_template('plot2.html', plot_url=plot_url)  
+        return render_template('plot1.html', plot_url=plot_url)  
 
-@app.route('/plot3')
+@app.route('/plot2')
 def plot3():
         img = BytesIO()
         data=pd.read_csv('Land Ocean Temp Index.csv')
@@ -138,7 +138,7 @@ def plot3():
         img.seek(0)
         plot_url = base64.b64encode(img.getvalue()).decode('utf8')
 
-        return render_template('plot3.html', plot_url=plot_url)  
+        return render_template('plot2.html', plot_url=plot_url)  
 
 
 @app.route('/', methods=['GET', 'POST'])
