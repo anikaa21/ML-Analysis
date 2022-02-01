@@ -23,8 +23,7 @@ test = cdf[~msk]
 matplotlib.use('Agg')
 
 model=pickle.load(open('ensemble_model.pkl','rb'))
-model2=pickle.load(open('xgboost_random_model.pkl','rb'))
-
+model2 = pickle.load(open('xgboost_random_model.pkl', 'rb'))
 app = flask.Flask(__name__, template_folder='templates')
 
 @app.route('/about', methods=['GET'])
@@ -39,7 +38,7 @@ def display_aqi():
 @app.route('/co2', methods=['GET'])
 def display_CO2():
     return render_template('indexco2.html')
-@app.route('/resultaqi', methods=['POST'])
+@app.route('/result2', methods=['POST'])
 def predict1():
     if request.method == 'POST':
         avg_temp = float(request.form['Average_temp'])
@@ -50,7 +49,6 @@ def predict1():
         avg_vis = float(request.form['Average_visibility'])
         avg_speed = float(request.form['Average_windspeed'])
         max_sustained = float(request.form['Max sustained wind speed'])
-        
         data = np.array([[avg_temp,max_temp, min_temp, at_pres, avg_hum, avg_vis, avg_speed, max_sustained]])
          
         my_prediction = model2.predict(data)
@@ -68,7 +66,7 @@ def predict1():
         elif(my_prediction>=220.5):
           inference="Hazardous"
         
-        return render_template('resultaqi.html', prediction=my_prediction,inf=inference)
+        return render_template('result2.html', prediction=my_prediction,inf=inference)
 
 @app.route("/result", methods=['POST'])
 def predict():
@@ -96,7 +94,7 @@ def predict():
             inference="low"
     return render_template('result.html', result=final, inf=inference)
 
-@app.route('/plot1')
+@app.route('/plot2')
 def plot2():
         img = BytesIO()
         data=pd.read_csv('Carbon Dioxide Emission.csv')
@@ -116,9 +114,9 @@ def plot2():
         img.seek(0)
         plot_url = base64.b64encode(img.getvalue()).decode('utf8')
 
-        return render_template('plot1.html', plot_url=plot_url)  
+        return render_template('plot2.html', plot_url=plot_url)  
 
-@app.route('/plot2')
+@app.route('/plot3')
 def plot3():
         img = BytesIO()
         data=pd.read_csv('Land Ocean Temp Index.csv')
@@ -139,7 +137,7 @@ def plot3():
         img.seek(0)
         plot_url = base64.b64encode(img.getvalue()).decode('utf8')
 
-        return render_template('plot2.html', plot_url=plot_url)  
+        return render_template('plot3.html', plot_url=plot_url)  
 
 
 @app.route('/', methods=['GET', 'POST'])
