@@ -38,7 +38,7 @@ def display_aqi():
 @app.route('/co2', methods=['GET'])
 def display_CO2():
     return render_template('indexco2.html')
-@app.route('/result2', methods=['POST'])
+@app.route('/resultaqi', methods=['POST'])
 def predict1():
     if request.method == 'POST':
         avg_temp = float(request.form['Average_temp'])
@@ -66,7 +66,7 @@ def predict1():
         elif(my_prediction>=220.5):
           inference="Hazardous"
         
-        return render_template('result2.html', prediction=my_prediction,inf=inference)
+        return render_template('resultaqi.html', prediction=my_prediction,inf=inference)
 
 @app.route("/result", methods=['POST'])
 def predict():
